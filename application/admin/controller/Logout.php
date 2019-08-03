@@ -9,6 +9,7 @@ class Logout extends Controller
 {
 	public function index()
 	{
-	    Session::clear();
+	    Session::delete('admin_id');
+	    $this->success('退出登录', 'Login/index');
     }
 }

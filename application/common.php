@@ -45,7 +45,7 @@ function multi_array_html($data = [])
     foreach ($data as $key=>$value) {
         if (empty($value['child'])) {
             $className = '';
-            $aTag  = '<a href="/'. $value['path'] .'" target="menuFrame"><i class="fa '. $value['icon'] .'"></i> <span>'. $value['title'] .'</span></a>';
+            $aTag  = '<a href="/'. $value['path'] .'" target="mainFrame"><i class="fa '. $value['icon'] .'"></i> <span>'. $value['title'] .'</span></a>';
         } else {
             $className = 'treeview';
             $aTag  = '<a href="'. $value['path'] .'"><i class="fa '. $value['icon'] .'"></i> <span>'. $value['title'] .'</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';

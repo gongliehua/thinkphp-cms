@@ -6,5 +6,5 @@ use think\Controller;
 
 class Backend extends Controller
 {
-	protected $middleware = ['Auth'];
+	protected $middleware = ['Admin'];
 }

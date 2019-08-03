@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.53)
-# Date: 2019-08-03 11:12:59
+# Date: 2019-08-03 15:24:36
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -18,12 +18,13 @@ CREATE TABLE `tp_admin` (
   `update_time` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
 
 #
 # Data for table "tp_admin"
 #
 
+INSERT INTO `tp_admin` VALUES (1,'admin','7c4a8d09ca3762af61e59520943dc26494f8941b',NULL,0,NULL);
 
 #
 # Structure for table "tp_admin_role"
@@ -37,12 +38,13 @@ CREATE TABLE `tp_admin_role` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `update_time` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员角色关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='管理员角色关联表';
 
 #
 # Data for table "tp_admin_role"
 #
 
+INSERT INTO `tp_admin_role` VALUES (1,1,1,0,NULL);
 
 #
 # Structure for table "tp_article"
@@ -144,16 +146,17 @@ DROP TABLE IF EXISTS `tp_role`;
 CREATE TABLE `tp_role` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '名称',
-  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '状态:0禁用,1正常',
+  `status` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '状态:0禁用,1正常',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `update_time` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 #
 # Data for table "tp_role"
 #
 
+INSERT INTO `tp_role` VALUES (1,'管理员组',1,0,NULL);
 
 #
 # Structure for table "tp_role_permissions"

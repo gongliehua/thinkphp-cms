@@ -8,6 +8,7 @@ class Admin extends Backend
 {
 	public function index()
 	{
+	    return $this->fetch();
     }
 
     public function create()

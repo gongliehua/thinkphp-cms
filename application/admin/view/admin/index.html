@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__STATIC__/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__STATIC__/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__STATIC__/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__STATIC__/dist/css/AdminLTE.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+<section class="content-header">
+    <h1>
+        用户列表
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void(0)" onclick="top.location.href='index.html';"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="javascript:void(0)">用户管理</a></li>
+        <li class="active">用户列表</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <a class="btn btn-sm btn-primary grid-refresh" title="刷新" onclick="location.reload()"><i class="fa fa-refresh"></i><span class="hidden-xs"> 刷新</span></a>
+                    <a href="add.html" class="btn btn-sm btn-success" title="新增"><i class="fa fa-plus"></i><span class="hidden-xs"> 新增</span></a>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" style="overflow-x: auto;overflow-y: auto;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 40px">ID</th>
+                            <th>用户名</th>
+                            <th>昵称</th>
+                            <th>用户组</th>
+                            <th>创建时间</th>
+                            <th>修改时间</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>15</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>16</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>17</td>
+                            <td>admin</td>
+                            <td>Administrator</td>
+                            <td>Admin</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>2018-10-01 10:01:00</td>
+                            <td>
+                                <a href="edit.html"><i class="fa fa-edit"></i></a>
+                                <a href="javascript:warning('确定要删除?','list.html')" data-id="1" class="grid-row-delete"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        <li><a href="#">&laquo;</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col-md-12 -->
+    </div>
+    <!-- /.row -->
+</section>
+
+<!-- jQuery 3 -->
+<script src="__STATIC__/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="__STATIC__/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- AdminLTE App -->
+<script src="__STATIC__/dist/js/adminlte.min.js"></script>
+<!-- function warning -->
+<script type="text/javascript">
+    function warning(info, url){
+        if(window.confirm(info)){
+            window.location.href = url;
+        }
+    }
+</script>
+
+</body>
+</html>

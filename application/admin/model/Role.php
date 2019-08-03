@@ -8,8 +8,8 @@ class Role extends Model
 {
     protected $autoWriteTimestamp = true;
 
-    public function adminRole()
+    public function permissions()
     {
-        return $this->belongsToMany('Permissions', 'RolePermissions', 'role_id', 'permissions_id');
+        return $this->belongsToMany('Permissions', 'RolePermissions', 'permissions_id', 'role_id');
     }
 }
