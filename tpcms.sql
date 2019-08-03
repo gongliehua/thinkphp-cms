@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.53)
-# Date: 2019-08-03 15:24:36
+# Date: 2019-08-03 21:23:32
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -18,13 +18,13 @@ CREATE TABLE `tp_admin` (
   `update_time` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
 
 #
 # Data for table "tp_admin"
 #
 
-INSERT INTO `tp_admin` VALUES (1,'admin','7c4a8d09ca3762af61e59520943dc26494f8941b',NULL,0,NULL);
+INSERT INTO `tp_admin` VALUES (1,'admin','7c4a8d09ca3762af61e59520943dc26494f8941b',NULL,0,NULL),(2,'test','7c4a8d09ca3762af61e59520943dc26494f8941b',NULL,0,NULL);
 
 #
 # Structure for table "tp_admin_role"
@@ -38,13 +38,13 @@ CREATE TABLE `tp_admin_role` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `update_time` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='管理员角色关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='管理员角色关联表';
 
 #
 # Data for table "tp_admin_role"
 #
 
-INSERT INTO `tp_admin_role` VALUES (1,1,1,0,NULL);
+INSERT INTO `tp_admin_role` VALUES (1,1,1,0,NULL),(2,2,2,0,NULL);
 
 #
 # Structure for table "tp_article"
@@ -131,12 +131,13 @@ CREATE TABLE `tp_permissions` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `update_time` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COMMENT='权限表';
 
 #
 # Data for table "tp_permissions"
 #
 
+INSERT INTO `tp_permissions` VALUES (1,'用户管理','fa-users',NULL,1,0,0,0,NULL),(2,'用户列表','fa-circle-o','admin/admin/index',1,0,1,0,NULL),(3,'用户添加',NULL,'admin/admin/create',0,0,1,0,NULL),(4,'用户编辑',NULL,'admin/admin/update',0,0,1,0,NULL),(5,'用户删除',NULL,'admin/admin/delete',0,0,1,0,NULL),(6,'角色列表','fa-circle-o','admin/role/index',1,0,1,0,NULL),(7,'角色添加',NULL,'admin/role/create',0,0,1,0,NULL),(8,'角色编辑',NULL,'admin/role/update',0,0,1,0,NULL),(9,'角色删除',NULL,'admin/role/delete',0,0,1,0,NULL),(10,'权限列表','fa-circle-o','admin/permissions/index',1,0,1,0,NULL),(11,'权限添加',NULL,'admin/permissions/create',0,0,1,0,NULL),(12,'权限编辑',NULL,'admin/permissions/update',0,0,1,0,NULL),(13,'权限删除',NULL,'admin/permissions/delete',0,0,1,0,NULL),(14,'系统管理','fa-gears',NULL,1,0,0,0,NULL),(15,'配置列表','fa-circle-o','admin/config/index',1,0,14,0,NULL),(16,'配置添加',NULL,'admin/config/create',0,0,14,0,NULL),(17,'配置编辑',NULL,'admin/config/update',0,0,14,0,NULL),(18,'配置删除',NULL,'admin/config/delete',0,0,14,0,NULL),(19,'配置管理','fa-circle-o','admin/config/save',1,0,14,0,NULL);
 
 #
 # Structure for table "tp_role"
@@ -150,13 +151,13 @@ CREATE TABLE `tp_role` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `update_time` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 #
 # Data for table "tp_role"
 #
 
-INSERT INTO `tp_role` VALUES (1,'管理员组',1,0,NULL);
+INSERT INTO `tp_role` VALUES (1,'admin',1,0,NULL),(2,'test',1,0,NULL);
 
 #
 # Structure for table "tp_role_permissions"
@@ -170,9 +171,10 @@ CREATE TABLE `tp_role_permissions` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `update_time` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色权限关联表';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='角色权限关联表';
 
 #
 # Data for table "tp_role_permissions"
 #
 
+INSERT INTO `tp_role_permissions` VALUES (1,2,1,0,NULL),(2,2,2,0,NULL),(3,2,3,0,NULL),(4,2,4,0,NULL),(5,2,5,0,NULL),(6,2,6,0,NULL),(7,2,7,0,NULL),(8,2,8,0,NULL),(9,2,9,0,NULL),(10,2,10,0,NULL),(11,2,11,0,NULL),(12,2,12,0,NULL),(13,2,13,0,NULL),(14,2,14,0,NULL),(15,2,15,0,NULL),(16,2,16,0,NULL),(17,2,17,0,NULL),(18,2,18,0,NULL);
