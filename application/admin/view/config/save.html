@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__STATIC__/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__STATIC__/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__STATIC__/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__STATIC__/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect. -->
+    <link rel="stylesheet" href="__STATIC__/dist/css/skins/skin-blue.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <style>
+        ul.pagination {margin: 0;}
+        tr:hover {background-color: #f5f5f5;}
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        配置列表
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">配置管理</a></li>
+        <li class="active">配置列表</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <a class="btn btn-sm btn-primary grid-refresh" title="刷新" onclick="location.reload()"><i class="fa fa-refresh"></i><span class="hidden-xs"> 刷新</span></a>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" style="overflow: auto;">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 200px">标题</th>
+                            <th>值</th>
+                        </tr>
+                        {if count($list)}
+                        <form action="" method="post">
+                            {:token()}
+                            {volist name="list" id="value"}
+                                <tr>
+                                    <td>{$value.title}</td>
+                                    {switch value.type}
+                                        {case 1}<td><input type="text" name="value[{$value.id}]" value="{$value.values}" class="form-control"></td>{/case}
+                                        {case 2}<td><textarea name="value[{$value.id}]" class="form-control" rows="3">{$value.values}</textarea></td>{/case}
+                                        {case 3}
+                                            <td>
+                                            {php}$radio = explode(',', $value['value']);{/php}
+                                            {volist name="radio" id="radioValue"}
+                                                <input type="radio" name="value[{$value.id}]" value="{$radioValue}" {if $radioValue == $value.values}checked="checked"{/if}>
+                                                {$radioValue}
+                                            {/volist}
+                                            </td>
+                                        {/case}
+                                        {case 4}
+                                            <td>
+                                            {php}$checkbox = explode(',', $value['value']);$checkboxed = explode(',', $value['values']);{/php}
+                                            {volist name="checkbox" id="checkboxValue"}
+                                                <input type="checkbox" name="value[{$value.id}]" value="{$checkboxValue}" {if in_array($checkboxValue, $checkboxed)}checked="checked"{/if}>
+                                                {$checkboxValue}
+                                            {/volist}
+                                            </td>
+                                        {/case}
+                                        {case 5}
+                                            <td>
+                                            {php}$select = explode(',', $value['value']);{/php}
+                                            <select name="value[{$value.id}]" class="form-control">
+                                            {volist name="select" id="selectValue"}
+                                                <option value="{$selectValue}" {if $selectValue == $value.values}selected="selected"{/if}>{$selectValue}</option>
+                                            {/volist}
+                                            </select>
+                                            </td>
+                                        {/case}
+                                        {default /}<td>未知类型</td>
+                                    {/switch}
+                                </tr>
+                            {/volist}
+                            <tr>
+                                <td></td>
+                                <td><input type="submit" value="提交"></td>
+                            </tr>
+                        </form>
+                        {else /}
+                            <tr><td colspan="2" class="text-center">暂无数据</td></tr>
+                        {/if}
+                    </table>
+                </div>
+                <!-- /.box-body -->
+                <div class="clearfix">
+                    <div class="pull-right"></div>
+                </div>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- jQuery 3 -->
+<script src="__STATIC__/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="__STATIC__/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="__STATIC__/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="__STATIC__/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="__STATIC__/dist/js/adminlte.min.js"></script>
+</body>
+</html>
