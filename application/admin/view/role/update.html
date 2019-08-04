@@ -33,13 +33,13 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        权限编辑
+        角色编辑
         <small></small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
         <li><a href="#">用户管理</a></li>
-        <li class="active">权限编辑</li>
+        <li class="active">角色编辑</li>
     </ol>
 </section>
 
@@ -55,40 +55,35 @@
                     <input type="hidden" name="id" value="{$info.id}">
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="parent_id">上级权限</label>
-                            <select class="form-control" name="parent_id" id="parent_id" required>
-                                {if count($permissions)}
-                                    <option value="0">顶级权限</option>
-                                    {volist name="permissions" id="value"}
-                                        <option value="{$value.id}" {if $value.id == $info.parent_id}selected="selected"{/if} {if $value.id == $info.id}disabled="disabled"{/if}>{if $value.level > 0}|{/if}{:str_repeat('——', $value.level)}{$value.title}</option>
-                                    {/volist}
-                                {else /}
-                                    <option value="0">顶级权限</option>
-                                {/if}
+                            <label for="name">名称</label>
+                            <input type="text" name="name" value="{$info.name}" class="form-control" id="name" placeholder="名称" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">状态</label>
+                            <select class="form-control" name="status" id="status" required>
+                                <option value="1" {if $info.status == 1}selected="selected"{/if}>启用</option>
+                                <option value="0" {if $info.status == 0}selected="selected"{/if}>禁用</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="title">标题</label>
-                            <input type="text" name="title" value="{$info.title}" class="form-control" id="title" placeholder="标题" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="icon">图标</label>
-                            <input type="text" name="icon" value="{$info.icon}" class="form-control" id="icon" placeholder="图标">
-                        </div>
-                        <div class="form-group">
-                            <label for="path">路由</label>
-                            <input type="text" name="path" value="{$info.path}" class="form-control" id="path" placeholder="路由">
-                        </div>
-                        <div class="form-group">
-                            <label for="menu">菜单</label>
-                            <select class="form-control" name="menu" id="menu" required>
-                                <option value="1" {if $info.menu == 1}selected="selected"{/if}>是</option>
-                                <option value="0" {if $info.menu == 0}selected="selected"{/if}>不是</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="sort">排序</label>
-                            <input type="number" name="sort" value="{$info.sort}" class="form-control" id="sort" placeholder="排序" required>
+                            <label for="permissions_id">权限</label>
+                            {if count($permissions)}
+                                {volist name="permissions" id="value"}
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="permissions_id[]" value="{$value.id}" data-id="{$value.id}" data-parentid="{$value.parent_id}" {if in_array($value.id, $info.permissions_id)}checked="checked"{/if}>
+                                            {if $value.level > 0}|{/if}{:str_repeat('——',$value.level)}{$value.title}
+                                        </label>
+                                    </div>
+                                {/volist}
+                            {else /}
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox">
+                                    暂无数据
+                                </label>
+                            </div>
+                            {/if}
                         </div>
                     </div>
                     <!-- /.box-body -->
@@ -116,5 +111,17 @@
 <script src="__STATIC__/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="__STATIC__/dist/js/adminlte.min.js"></script>
+<script>
+    $(function(){
+        // checkbox选择框
+        $('input[type="checkbox"]').click(function(){
+            // checkbox被选中为true时,子权限全选,父权限选中
+            if($(this).prop('checked')) {
+                $('input[data-parentid="'+$(this).attr('data-id')+'"]').prop('checked',true);
+                $('input[data-id="'+$(this).attr('data-parentid')+'"]').prop('checked',true);
+            }
+        });
+    });
+</script>
 </body>
 </html>

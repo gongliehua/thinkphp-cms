@@ -12,4 +12,9 @@ class AdminRole extends Model
     {
         return $this->belongsTo('Role', 'role_id', 'id');
     }
+
+    public function admin()
+    {
+        return $this->belongsTo('Admin', 'admin_id', 'id');
+    }
 }
