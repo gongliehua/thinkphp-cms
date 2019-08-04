@@ -38,11 +38,10 @@ class Admin extends Backend
                 if($info){
                     $data['avatar'] = '/uploads/'.$info->getSaveName();
                     $data['avatar'] = str_replace('\\', '/', $data['avatar']);
+                    unset($info);
                 }else{
                     $this->error($file->getError());
                 }
-            } else {
-                $data['avatar'] = '';
             }
 
             // 判断角色是否存在
@@ -54,6 +53,7 @@ class Admin extends Backend
             try {
                 Db::startTrans();
 
+                // 用户添加
                 $admin = new AdminModel;
                 $admin->username = $data['username'];
                 $admin->password = sha1($data['password']);
@@ -64,12 +64,11 @@ class Admin extends Backend
                     throw new \Exception('添加失败');
                 }
 
+                // 用户角色关联添加
                 $adminRole = new AdminRole;
-                $adminRole = $adminRole->save([
-                    'admin_id'=>$admin->id,
-                    'role_id'=>$data['role_id'],
-                ]);
-                if (!$adminRole) {
+                $adminRole->admin_id = $admin->id;
+                $adminRole->role_id = $data['role_id'];
+                if (!$adminRole->save()) {
                     throw new \Exception('添加失败');
                 }
 
@@ -77,7 +76,6 @@ class Admin extends Backend
             } catch (\Exception $e) {
                 Db::rollback();
                 if (!empty($data['avatar'])) {
-                    unset($info);
                     @unlink($_SERVER['DOCUMENT_ROOT'].$data['avatar']);
                 }
                 $this->error($e->getMessage());
@@ -107,11 +105,12 @@ class Admin extends Backend
 
             // 判断用户是否存在
             $admin = AdminModel::where('id', $data['id'])->find();
-            // 用来删除头像,不能全赋值,$admin可能是个单例模式对象
-            $origin = $admin['avatar'];
             if (!$admin) {
                 $this->error('用户不存在');
             }
+
+            // 用来删除头像
+            $avatar = $admin['avatar'];
 
             // 判断文件是否存在
             if (!empty($_FILES['avatar']['name'])) {
@@ -120,11 +119,10 @@ class Admin extends Backend
                 if($info){
                     $data['avatar'] = '/uploads/'.$info->getSaveName();
                     $data['avatar'] = str_replace('\\', '/', $data['avatar']);
+                    unset($info);
                 }else{
                     $this->error($file->getError());
                 }
-            } else {
-                $data['avatar'] = '';
             }
 
             // 判断角色是否存在
@@ -148,23 +146,20 @@ class Admin extends Backend
                 }
 
                 $adminRole = AdminRole::where('admin_id', $data['id'])->find();
-                $adminRole = $adminRole->save([
-                    'role_id'=>$data['role_id'],
-                ]);
-                if (!$adminRole) {
+                $adminRole->role_id = $data['role_id'];
+                if (!$adminRole->save()) {
                     throw new \Exception('修改失败');
                 }
 
-                // 判断头像是否被更换
-                if ($admin['avatar'] != $origin) {
-                    @unlink($_SERVER['DOCUMENT_ROOT'].$origin);
+                // 判断头像是否被更新
+                if ($admin['avatar'] != $avatar) {
+                    @unlink($_SERVER['DOCUMENT_ROOT'].$avatar);
                 }
 
                 Db::commit();
             } catch (\Exception $e) {
                 Db::rollback();
                 if (!empty($data['avatar'])) {
-                    unset($info);
                     @unlink($_SERVER['DOCUMENT_ROOT'].$data['avatar']);
                 }
                 $this->error($e->getMessage());
@@ -203,19 +198,22 @@ class Admin extends Backend
         try {
             Db::startTrans();
 
+            // 用户删除
             $admin = AdminModel::where('id', $data['id'])->find();
-            $origin = $admin['avatar']; //不能把$admin整个赋值给$origin,$admin可以是个单例模式对象
+            $avatar = $admin['avatar']; //用来删除头像
             if (!$admin->delete()) {
                 throw new \Exception('删除失败');
             }
+
+            // 用户角色关联删除
             $adminRole = AdminRole::where('admin_id', $data['id'])->delete();
             if (!$adminRole) {
                 throw new \Exception('删除失败');
             }
 
-            // 判断是否有头像
-            if (!empty($origin)) {
-                @unlink($_SERVER['DOCUMENT_ROOT'].$origin);
+            // 删除头像文件
+            if (!empty($avatar)) {
+                @unlink($_SERVER['DOCUMENT_ROOT'].$avatar);
             }
             Db::commit();
         } catch (\Exception $e) {

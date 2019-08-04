@@ -21,10 +21,10 @@ class Profile extends Backend
                 $this->error($validate);
             }
 
-            // 获取用户信息
+            // 用户信息
             $admin = Admin::where('id', Session::get('admin_id'))->find();
-            // 用来删除头像,不能全赋值,$admin可能是个单例模式对象
-            $origin = $admin['avatar'];
+            // 用来删除头像
+            $avatar = $admin['avatar'];
 
             // 判断文件是否存在
             if (!empty($_FILES['avatar']['name'])) {
@@ -33,11 +33,10 @@ class Profile extends Backend
                 if($info){
                     $data['avatar'] = '/uploads/'.$info->getSaveName();
                     $data['avatar'] = str_replace('\\', '/', $data['avatar']);
+                    unset($info);
                 }else{
                     $this->error($file->getError());
                 }
-            } else {
-                $data['avatar'] = '';
             }
 
             $admin->username = $data['username'];
@@ -48,16 +47,16 @@ class Profile extends Backend
                 $admin->avatar = $data['avatar'];
             }
             if (!$admin->save()) {
+                // 保存失败,删除上传的头像文件
                 if (!empty($data['avatar'])) {
-                    unset($info);
                     @unlink($_SERVER['DOCUMENT_ROOT'].$data['avatar']);
                 }
                 $this->error('修改失败');
             }
 
-            // 判断头像是否被更换
-            if ($admin['avatar'] != $origin) {
-                @unlink($_SERVER['DOCUMENT_ROOT'].$origin);
+            // 判断头像是否被更新
+            if ($admin['avatar'] != $avatar) {
+                @unlink($_SERVER['DOCUMENT_ROOT'].$avatar);
             }
 
             $this->success('修改成功', 'Profile/index');
