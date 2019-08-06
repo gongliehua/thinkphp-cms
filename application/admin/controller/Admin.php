@@ -94,7 +94,7 @@ class Admin extends Backend
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'id|ID'=>'require|integer|token',
-                'username|用户名'=>'require|length:3,50|unique:admin,username,'.$data['id'].',id',
+                'username|用户名'=>'require|length:3,50|unique:admin,username,'.$this->request->param('id').',id',
                 'password|密码'=>'length:6,50',
                 'avatar|头像'=>'file',
                 'role_id|角色ID'=>'require|integer|notIn:0',

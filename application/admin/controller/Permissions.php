@@ -119,7 +119,7 @@ class Permissions extends Backend
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'id|ID'=>'require|integer|token',
-                'parent_id|上级权限'=>'require|integer|notIn:'.$data['id'],
+                'parent_id|上级权限'=>'require|integer|notIn:'.$this->request->param('id'),
                 'title|标题'=>'require|length:1,50',
                 'menu|菜单'=>'require|integer',
                 'sort|排序'=>'require|integer',

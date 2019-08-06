@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.53)
-# Date: 2019-08-04 23:09:30
+# Date: 2019-08-06 17:40:27
 # Generator: MySQL-Front 5.3  (Build 4.234)
 
 /*!40101 SET NAMES utf8 */;
@@ -81,7 +81,7 @@ CREATE TABLE `tp_category` (
   `keywords` varchar(255) DEFAULT NULL COMMENT '关键字',
   `description` varchar(255) DEFAULT NULL COMMENT '描述',
   `content` text COMMENT '内容',
-  `sort` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `parent_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '上级ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `update_time` int(10) unsigned DEFAULT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE `tp_config` (
   `type` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '类型:1单行文本,2多行文本,3单选按钮,4复选框,5下拉框',
   `value` varchar(255) DEFAULT NULL COMMENT '配置值',
   `values` varchar(255) DEFAULT NULL COMMENT '值',
-  `sort` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `create_time` int(11) unsigned NOT NULL DEFAULT '0',
   `update_time` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -129,7 +129,7 @@ CREATE TABLE `tp_permissions` (
   `icon` varchar(50) DEFAULT NULL COMMENT '图标',
   `path` varchar(255) DEFAULT NULL COMMENT '路径',
   `menu` tinyint(3) unsigned NOT NULL DEFAULT '1' COMMENT '菜单:0不是,1是',
-  `sort` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
+  `sort` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
   `parent_id` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '上级ID',
   `create_time` int(10) unsigned NOT NULL DEFAULT '0',
   `update_time` int(10) unsigned DEFAULT NULL,

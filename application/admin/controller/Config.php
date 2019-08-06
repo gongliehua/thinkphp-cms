@@ -82,7 +82,7 @@ class Config extends Backend
             $validate = $this->validate($data, [
                 'id|ID'=>'require|integer|token',
                 'title|标题'=>'require|length:1,255',
-                'name|变量名'=>'require|length:1,50|alpha|unique:config,name,'.$data['id'].',id',
+                'name|变量名'=>'require|length:1,50|alpha|unique:config,name,'.$this->request->param('id').',id',
                 'type|类型'=>'require|integer',
                 'value|配置值'=>'length:1,255',
                 'values|值'=>'length:1,255',
