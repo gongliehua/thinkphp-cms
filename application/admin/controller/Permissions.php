@@ -40,7 +40,7 @@ class Permissions extends Backend
         $data = $this->request->param();
         $validate = $this->validate($data, [
             'page|页码'=>'integer|notIn:0',
-            'per_page|每页条数'=>'integer|notIn:0',
+            'list_rows|每页条数'=>'integer|notIn:0',
         ]);
         if ($validate !== true) {
             $this->error($validate);
@@ -48,15 +48,15 @@ class Permissions extends Backend
 
         // 分页参数
         $page = abs($this->request->param('page', 1));
-        $per_page = abs($this->request->param('per_page', 15));
-        $offset = ($page - 1) * $per_page;
+        $list_rows = abs($this->request->param('list_rows', 15));
+        $offset = ($page - 1) * $list_rows;
 
         // 数据和分页数据
         $list = sort_two_array(json_decode(json_encode(PermissionsModel::order('sort', 'asc')->all()), true));
-        $data = array_slice($list, $offset, $per_page, true);
+        $data = array_slice($list, $offset, $list_rows, true);
 
         // 分页
-        $list = Bootstrap::make($data, $per_page, $page, count($list), false, [
+        $list = Bootstrap::make($data, $list_rows, $page, count($list), false, [
             'var_page'=>'page',
             'path'=>url('Permissions/index'),
             'query'=>[],
@@ -177,6 +177,11 @@ class Permissions extends Backend
         ]);
         if ($validate !== true) {
             $this->error($validate);
+        }
+
+        $permissions = PermissionsModel::with(['permissions'])->get($data['id']);
+        if (!empty($permissions->permissions)) {
+            $this->error('子权限['.$permissions->permissions->title.']使用中,不能删除');
         }
 
         $rolePermissions = RolePermissions::with(['role'])->where('permissions_id', $data['id'])->find();

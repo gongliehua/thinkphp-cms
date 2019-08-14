@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__STATIC__/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__STATIC__/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__STATIC__/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__STATIC__/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect. -->
+    <link rel="stylesheet" href="__STATIC__/dist/css/skins/skin-blue.min.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        文章编辑
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">文章管理</a></li>
+        <li class="active">文章编辑</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <!-- form start -->
+                <form action="" method="post" enctype="multipart/form-data" role="form">
+                    {:token()}
+                    <input type="hidden" name="id" value="{$info.id}">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="category_id">所属栏目</label>
+                            <select class="form-control" name="category_id" id="category_id" required>
+                                {if count($categorys)}
+                                    {volist name="categorys" id="value"}
+                                        <option value="{$value.id}" {if $value.id == $info.category_id}selected="selected"{/if}>{if $value.level > 0}|{/if}{:str_repeat('——', $value.level)}{$value.name}</option>
+                                    {/volist}
+                                {else /}
+                                    <option value="0">暂无数据</option>
+                                {/if}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">标题</label>
+                            <input type="text" name="title" value="{$info.title}" class="form-control" id="title" placeholder="标题" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="keywords">关键字</label>
+                            <input type="text" name="keywords" value="{$info.keywords}" class="form-control" id="keywords" placeholder="关键字">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">描述</label>
+                            <textarea name="description" cols="30" class="form-control" id="description" placeholder="描述">{$info.description}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="content">内容</label>
+                            <script id="content" name="content" type="text/plain" style="width:100%;height:500px;">{$info.content|raw}</script>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary" onclick="if(!hasContent()){alert('内容不能为空');return false;}">提交</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- jQuery 3 -->
+<script src="__STATIC__/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="__STATIC__/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- SlimScroll -->
+<script src="__STATIC__/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="__STATIC__/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="__STATIC__/dist/js/adminlte.min.js"></script>
+<!-- ueditor -->
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+    //实例化编辑器
+    //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+    var ue = UE.getEditor('content');
+    function hasContent() {
+        return UE.getEditor('content').hasContents();
+    }
+</script>
+</body>
+</html>

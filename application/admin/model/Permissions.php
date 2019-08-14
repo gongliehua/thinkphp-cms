@@ -14,4 +14,9 @@ class Permissions extends Model
     {
         return $data['menu'] ? '是' : '否';
     }
+
+    public function permissions()
+    {
+        return $this->hasOne('Permissions', 'parent_id', 'id');
+    }
 }

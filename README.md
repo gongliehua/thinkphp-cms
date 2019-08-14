@@ -7,5 +7,8 @@
 安装
 
 ~~~
-bower install && composer install
+git clone https://github.com/strval/thinkphp-cms.git tpcms
+cd tpcms
+bower install
+composer install
 ~~~
