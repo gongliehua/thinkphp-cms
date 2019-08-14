@@ -14,10 +14,10 @@ class Index extends Backend
 	    // 默认管理员获取所有菜单
 	    if (Session::get('admin_id') == 1) {
             $admin = Admin::with(['adminRole'=>['role']])->where('id', Session::get('admin_id'))->find();
-	        $permissions = multi_array_html(sort_multi_array(json_decode(json_encode(Permissions::where('menu', 1)->select()), true)));
+	        $permissions = multi_array_html(sort_multi_array(json_decode(json_encode(Permissions::where('menu', 1)->order('sort', 'asc')->select()), true)));
         } else {
             $admin = Admin::with(['adminRole'=>['role'=>['permissions'=>function($query) {
-                $query->where('menu', 1);
+                $query->where('menu', 1)->order('sort', 'asc');
             }]]])->where('id', Session::get('admin_id'))->find();
             $permissions = multi_array_html(sort_multi_array(json_decode(json_encode($admin->admin_role->role->permissions), true)));
         }

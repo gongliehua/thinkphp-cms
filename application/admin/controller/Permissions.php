@@ -92,12 +92,8 @@ class Permissions extends Backend
 
             $permissions = new PermissionsModel;
             $permissions->title = $data['title'];
-            if (!empty($data['icon'])) {
-                $permissions->icon = $data['icon'];
-            }
-            if (!empty($data['path'])) {
-                $permissions->path = $data['path'];
-            }
+            $permissions->icon = $this->request->param('icon');
+            $permissions->path = $this->request->param('path');
             $permissions->menu = $data['menu'];
             $permissions->sort = $data['sort'];
             $permissions->parent_id = $data['parent_id'];
@@ -143,12 +139,8 @@ class Permissions extends Backend
             }
 
             $permissions->title = $data['title'];
-            if (!empty($data['icon'])) {
-                $permissions->icon = $data['icon'];
-            }
-            if (!empty($data['path'])) {
-                $permissions->path = $data['path'];
-            }
+            $permissions->icon = $this->request->param('icon');
+            $permissions->path = $this->request->param('path');
             $permissions->menu = $data['menu'];
             $permissions->sort = $data['sort'];
             $permissions->parent_id = $data['parent_id'];

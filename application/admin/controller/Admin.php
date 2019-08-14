@@ -34,9 +34,9 @@ class Admin extends Backend
             // 判断文件是否存在
             if (!empty($_FILES['avatar']['name'])) {
                 $file = request()->file('avatar');
-                $info = $file->validate(['ext'=>'bmp,jpg,jpeg,png,gif'])->move( './uploads');
+                $info = $file->validate(['ext'=>'bmp,jpg,jpeg,png,gif'])->move( './uploads/avatar');
                 if($info){
-                    $data['avatar'] = '/uploads/'.$info->getSaveName();
+                    $data['avatar'] = '/uploads/avatar/'.$info->getSaveName();
                     $data['avatar'] = str_replace('\\', '/', $data['avatar']);
                     unset($info);
                 }else{
@@ -115,9 +115,9 @@ class Admin extends Backend
             // 判断文件是否存在
             if (!empty($_FILES['avatar']['name'])) {
                 $file = request()->file('avatar');
-                $info = $file->validate(['ext'=>'bmp,jpg,jpeg,png,gif'])->move( './uploads');
+                $info = $file->validate(['ext'=>'bmp,jpg,jpeg,png,gif'])->move( './uploads/avatar');
                 if($info){
-                    $data['avatar'] = '/uploads/'.$info->getSaveName();
+                    $data['avatar'] = '/uploads/avatar/'.$info->getSaveName();
                     $data['avatar'] = str_replace('\\', '/', $data['avatar']);
                     unset($info);
                 }else{
