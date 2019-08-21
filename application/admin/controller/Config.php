@@ -5,11 +5,20 @@ namespace app\admin\controller;
 use app\admin\model\Config as ConfigModel;
 use app\common\controller\Backend;
 
+/*
+ * 配置管理
+ */
 class Config extends Backend
 {
+    /**
+     * 配置列表
+     * 该功能针对开发人员,项目完成后需要关闭该功能
+     * @return mixed
+     */
     public function index()
     {
         if ($this->request->isPost()) {
+            // 验证数据
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'sort|排序'=>'require|array|token',
@@ -18,7 +27,7 @@ class Config extends Backend
                 $this->error($validate);
             }
 
-            // 数据重组
+            // 排序数据重组
             $newData = [];
             foreach ($data['sort'] as $key=>$value) {
                 if ((is_numeric($key) && strpos('.', $key) === false) && is_numeric($value) && strpos('.', $value) === false) {
@@ -39,9 +48,15 @@ class Config extends Backend
         return $this->fetch();
     }
 
+    /**
+     * 配置添加
+     * 该功能针对开发人员,项目完成后需要关闭该功能
+     * @return mixed
+     */
     public function create()
     {
         if ($this->request->isPost()) {
+            // 数据验证
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'title|标题'=>'require|length:1,255|token',
@@ -55,6 +70,7 @@ class Config extends Backend
                 $this->error($validate);
             }
 
+            // 数据入库
             $config = new ConfigModel;
             $config->title = $data['title'];
             $config->name = $data['name'];
@@ -75,9 +91,15 @@ class Config extends Backend
         return $this->fetch();
     }
 
+    /**
+     * 配置编辑
+     * 该功能针对开发人员,项目完成后需要关闭该功能
+     * @return mixed
+     */
     public function update()
     {
         if ($this->request->isPost()) {
+            // 数据验证
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'id|ID'=>'require|integer|token',
@@ -92,6 +114,7 @@ class Config extends Backend
                 $this->error($validate);
             }
 
+            // 数据入库
             $config = ConfigModel::get($data['id']);
             if (!$config) {
                 $this->error('配置不存在');
@@ -113,6 +136,7 @@ class Config extends Backend
             }
         }
 
+        // 数据验证
         $data = $this->request->param();
         $validate = $this->validate($data, [
             'id|ID'=>'require|integer',
@@ -120,7 +144,6 @@ class Config extends Backend
         if ($validate !== true) {
             $this->error($validate);
         }
-
         $info = ConfigModel::get($data['id']);
         if (!$info) {
             $this->error('配置不存在');
@@ -129,8 +152,13 @@ class Config extends Backend
         return $this->fetch();
     }
 
+    /**
+     * 配置删除
+     * 该功能针对开发人员,项目完成后需要关闭该功能
+     */
     public function delete()
     {
+        // 验证数据
         $data = $this->request->param();
         $validate = $this->validate($data, [
             'id|ID'=>'require|integer',
@@ -139,6 +167,7 @@ class Config extends Backend
             $this->error($validate);
         }
 
+        // 基本信息
         $config = ConfigModel::destroy($data['id']);
         if ($config) {
             $this->success('删除成功', 'Config/index');
@@ -147,9 +176,14 @@ class Config extends Backend
         }
     }
 
+    /**
+     * 配置管理
+     * @return mixed
+     */
     public function save()
     {
         if ($this->request->isPost()) {
+            // 数据验证
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'value|值'=>'require|array|token',

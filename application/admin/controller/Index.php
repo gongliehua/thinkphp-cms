@@ -7,8 +7,15 @@ use app\admin\model\Permissions;
 use app\common\controller\Backend;
 use think\facade\Session;
 
+/*
+ * 后台首页
+ */
 class Index extends Backend
 {
+    /**
+     * 后台首页
+     * @return mixed
+     */
 	public function index()
 	{
 	    // 默认管理员获取所有菜单

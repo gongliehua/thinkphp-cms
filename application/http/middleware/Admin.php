@@ -7,6 +7,9 @@ use app\admin\model\Permissions;
 use app\admin\model\RolePermissions;
 use think\facade\Session;
 
+/*
+ * 后台模块鉴权
+ */
 class Admin
 {
     public function handle($request, \Closure $next)

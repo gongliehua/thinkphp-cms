@@ -6,11 +6,19 @@ use app\admin\model\Category as CategoryModel;
 use app\common\controller\Backend;
 use think\paginator\driver\Bootstrap;
 
+/*
+ * 栏目管理
+ */
 class Category extends Backend
 {
+    /**
+     * 栏目列表
+     * @return mixed
+     */
     public function index()
     {
         if ($this->request->isPost()) {
+            // 数据验证
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'sort|排序'=>'require|array|token',
@@ -19,7 +27,7 @@ class Category extends Backend
                 $this->error($validate);
             }
 
-            // 数据重组
+            // 排序数据重组
             $newData = [];
             foreach ($data['sort'] as $key=>$value) {
                 if ((is_numeric($key) && strpos('.', $key) === false) && is_numeric($value) && strpos('.', $value) === false) {
@@ -36,6 +44,7 @@ class Category extends Backend
             }
         }
 
+        // 数据验证
         $data = $this->request->param();
         $validate = $this->validate($data, [
             'page|页码'=>'integer|notIn:0',
@@ -67,9 +76,14 @@ class Category extends Backend
         return $this->fetch();
     }
 
+    /**
+     * 栏目添加
+     * @return mixed
+     */
     public function create()
     {
         if ($this->request->isPost()) {
+            // 数据验证
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'parent_id|上级栏目'=>'require|integer|token',
@@ -83,7 +97,6 @@ class Category extends Backend
             if ($validate !== true) {
                 $this->error($validate);
             }
-
             // 判断上级栏目是否存在
             if ($data['parent_id']) {
                 $category = CategoryModel::where('id', $data['parent_id'])->value('id');
@@ -92,6 +105,7 @@ class Category extends Backend
                 }
             }
 
+            // 数据入库
             $category = new CategoryModel;
             $category->name = $data['name'];
             $category->type = $data['type'];
@@ -108,14 +122,20 @@ class Category extends Backend
             }
         }
 
+        // 所有栏目
         $categorys = sort_two_array(json_decode(json_encode(CategoryModel::order('sort', 'asc')->all()), true));
         $this->assign(compact('categorys'));
         return $this->fetch();
     }
 
+    /**
+     * 栏目编辑
+     * @return mixed
+     */
     public function update()
     {
         if ($this->request->isPost()) {
+            // 数据验证
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'id|ID'=>'require|integer|token',
@@ -130,7 +150,6 @@ class Category extends Backend
             if ($validate !== true) {
                 $this->error($validate);
             }
-
             // 判断上级栏目是否存在
             if ($data['parent_id']) {
                 $category = CategoryModel::where('id', $data['parent_id'])->value('id');
@@ -144,13 +163,13 @@ class Category extends Backend
             if (in_array($data['parent_id'], $parentCategoryIdNotIn)) {
                 $this->error('上级栏目不能是子栏目');
             }
-
             // 判断栏目是否存在
             $category = CategoryModel::get($data['id']);
             if (!$category) {
                 $this->error('栏目不存在');
             }
 
+            // 数据入库
             $category->name = $data['name'];
             $category->type = $data['type'];
             $category->link = $this->request->param('link');
@@ -166,6 +185,7 @@ class Category extends Backend
             }
         }
 
+        // 数据验证
         $data = $this->request->param();
         $validate = $this->validate($data, [
             'id|ID'=>'require|integer',
@@ -173,18 +193,21 @@ class Category extends Backend
         if ($validate !== true) {
             $this->error($validate);
         }
-
+        // 基本信息
         $info = CategoryModel::get($data['id']);
         if (!$info) {
             $this->error('栏目不存在');
         }
 
+        // 所有栏目,由于无限极排序函数的数据是在静态区,防止数据残留
         sort_two_array([], 0, 0 , true);
         $categorys = sort_two_array(json_decode(json_encode(CategoryModel::order('sort', 'asc')->all()), true));
 
+        // 获取自己ID和子栏目ID,上级栏目不能是自己和子栏目ID
         if (isset($parentCategoryIdNotIn)) {
             $parentCategoryIdNotIn = array_merge($parentCategoryIdNotIn, [$data['id']]);
         } else {
+            // 由于无限极排序函数的数据是在静态区,防止数据残留
             sort_two_array([], 0, 0 , true);
             $parentCategoryIdNotIn = sort_two_array($categorys, $data['id']);
             $parentCategoryIdNotIn = array_merge(array_column($parentCategoryIdNotIn, 'id'), [$data['id']]);
@@ -194,8 +217,12 @@ class Category extends Backend
         return $this->fetch();
     }
 
+    /**
+     * 栏目删除
+     */
     public function delete()
     {
+        // 数据验证
         $data = $this->request->param();
         $validate = $this->validate($data, [
             'id|ID'=>'require|integer',
@@ -203,7 +230,7 @@ class Category extends Backend
         if ($validate !== true) {
             $this->error($validate);
         }
-
+        // 判断是否有子栏目使用
         $category = CategoryModel::with(['category', 'article'])->get($data['id']);
         if (!empty($category->category)) {
             $this->error('子栏目['.$category->category->name.']使用中,不能删除');
@@ -212,6 +239,7 @@ class Category extends Backend
             $this->error('文章['.$category->article->title.']使用中,不能删除');
         }
 
+        // 数据删除
         $category = CategoryModel::destroy($data['id']);
         if ($category) {
             $this->success('删除成功', 'Category/index');

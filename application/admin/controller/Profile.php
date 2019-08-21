@@ -6,11 +6,19 @@ use app\admin\model\Admin;
 use app\common\controller\Backend;
 use think\facade\Session;
 
+/*
+ * 个人信息
+ */
 class Profile extends Backend
 {
+    /**
+     * 个人信息
+     * @return mixed
+     */
     public function index()
     {
         if ($this->request->isPost()) {
+            // 数据验证
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'username|用户名'=>'require|length:3,50|unique:admin,username,'.Session::get('admin_id').',id|token',
@@ -39,6 +47,7 @@ class Profile extends Backend
                 }
             }
 
+            // 用户信息更新
             $admin->username = $data['username'];
             if (!empty($data['password'])) {
                 $admin->password = sha1($data['password']);

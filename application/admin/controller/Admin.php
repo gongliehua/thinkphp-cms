@@ -8,8 +8,15 @@ use app\admin\model\AdminRole;
 use app\common\controller\Backend;
 use think\Db;
 
+/*
+ * 用户管理
+ */
 class Admin extends Backend
 {
+    /**
+     * 用户列表
+     * @return mixed
+     */
 	public function index()
 	{
 	    $list = AdminModel::with(['adminRole'=>['role']])->paginate();
@@ -17,9 +24,14 @@ class Admin extends Backend
 	    return $this->fetch();
     }
 
+    /**
+     * 用户添加
+     * @return mixed
+     */
     public function create()
     {
         if ($this->request->isPost()) {
+            // 数据验证
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'username|用户名'=>'require|length:3,50|unique:admin|token',
@@ -30,8 +42,7 @@ class Admin extends Backend
             if ($validate !== true) {
                 $this->error($validate);
             }
-
-            // 判断文件是否存在
+            // 判断是否传了头像
             if (!empty($_FILES['avatar']['name'])) {
                 $file = request()->file('avatar');
                 $info = $file->validate(['ext'=>'bmp,jpg,jpeg,png,gif'])->move( './uploads/avatar');
@@ -43,7 +54,6 @@ class Admin extends Backend
                     $this->error($file->getError());
                 }
             }
-
             // 判断角色是否存在
             $role = Role::where('id', $data['role_id'])->value('id');
             if (!$role) {
@@ -53,7 +63,7 @@ class Admin extends Backend
             try {
                 Db::startTrans();
 
-                // 用户添加
+                // 用户信息入库
                 $admin = new AdminModel;
                 $admin->username = $data['username'];
                 $admin->password = sha1($data['password']);
@@ -83,14 +93,20 @@ class Admin extends Backend
             $this->success('添加成功', 'Admin/index');
         }
 
+        // 所有角色
         $roles = Role::all();
         $this->assign(compact('roles'));
         return $this->fetch();
     }
 
+    /**
+     * 用户更新
+     * @return mixed
+     */
     public function update()
     {
         if ($this->request->isPost()) {
+            // 数据验证
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'id|ID'=>'require|integer|token',
@@ -102,16 +118,13 @@ class Admin extends Backend
             if ($validate !== true) {
                 $this->error($validate);
             }
-
             // 判断用户是否存在
             $admin = AdminModel::where('id', $data['id'])->find();
             if (!$admin) {
                 $this->error('用户不存在');
             }
-
-            // 用来删除头像
+            // 更新头像后用来删除原头像
             $avatar = $admin['avatar'];
-
             // 判断文件是否存在
             if (!empty($_FILES['avatar']['name'])) {
                 $file = request()->file('avatar');
@@ -124,7 +137,6 @@ class Admin extends Backend
                     $this->error($file->getError());
                 }
             }
-
             // 判断角色是否存在
             $role = Role::where('id', $data['role_id'])->value('id');
             if (!$role) {
@@ -134,6 +146,7 @@ class Admin extends Backend
             try {
                 Db::startTrans();
 
+                // 用户信息修改
                 $admin->username = $data['username'];
                 if (!empty($data['password'])) {
                     $admin->password = sha1($data['password']);
@@ -145,6 +158,7 @@ class Admin extends Backend
                     throw new \Exception('修改失败');
                 }
 
+                // 用户角色关联修改
                 $adminRole = AdminRole::where('admin_id', $data['id'])->find();
                 $adminRole->role_id = $data['role_id'];
                 if (!$adminRole->save()) {
@@ -167,6 +181,7 @@ class Admin extends Backend
             $this->success('修改成功', 'Admin/index');
         }
 
+        // 数据验证
         $data = $this->request->param();
         $validate = $this->validate($data, [
             'id|ID'=>'require|integer',
@@ -175,18 +190,23 @@ class Admin extends Backend
             $this->error($validate);
         }
 
+        // 基本信息
         $info = AdminModel::with(['adminRole'])->where('id', $data['id'])->find();
         if (!$info) {
             $this->error('用户不存在');
         }
-
+        // 所有角色
         $roles = Role::all();
         $this->assign(compact('info', 'roles'));
         return $this->fetch();
     }
 
+    /**
+     * 用户删除
+     */
     public function delete()
     {
+        // 数据验证
         $data = $this->request->param();
         $validate = $this->validate($data, [
             'id|ID'=>'require|integer|notIn:1',

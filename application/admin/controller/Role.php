@@ -9,8 +9,15 @@ use app\admin\model\RolePermissions;
 use app\common\controller\Backend;
 use think\Db;
 
+/*
+ * 角色管理
+ */
 class Role extends Backend
 {
+    /**
+     * 角色列表
+     * @return mixed
+     */
     public function index()
     {
         $list = RoleModel::paginate();
@@ -18,9 +25,14 @@ class Role extends Backend
         return $this->fetch();
     }
 
+    /**
+     * 角色添加
+     * @return mixed
+     */
     public function create()
     {
         if ($this->request->isPost()) {
+            // 验证数据
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'name|名称'=>'require|length:1,50|token',
@@ -68,14 +80,21 @@ class Role extends Backend
             $this->success('添加成功', 'Role/index');
         }
 
+        // 所有权限
         $permissions = sort_two_array(json_decode(json_encode(Permissions::order('sort', 'asc')->all()), true));
         $this->assign(compact('permissions'));
         return $this->fetch();
     }
 
+    /**
+     * 角色编辑
+     * @return mixed
+     * @throws \Exception
+     */
     public function update()
     {
         if ($this->request->isPost()) {
+            // 数据验证
             $data = $this->request->param();
             $validate = $this->validate($data, [
                 'id|ID'=>'require|integer|token',
@@ -138,6 +157,7 @@ class Role extends Backend
             $this->success('修改成功', 'Role/index');
         }
 
+        // 数据验证
         $data = $this->request->param();
         $validate = $this->validate($data, [
             'id|ID'=>'require|integer',
@@ -159,8 +179,12 @@ class Role extends Backend
         return $this->fetch();
     }
 
+    /**
+     * 角色删除
+     */
     public function delete()
     {
+        // 数据验证
         $data = $this->request->param();
         $validate = $this->validate($data, [
             'id|ID'=>'require|integer',
