@@ -60,7 +60,7 @@
                                 {if count($permissions)}
                                     <option value="0">顶级权限</option>
                                     {volist name="permissions" id="value"}
-                                        <option value="{$value.id}" {if $value.id == $info.parent_id}selected="selected"{/if} {if $value.id == $info.id}disabled="disabled"{/if}>{if $value.level > 0}|{/if}{:str_repeat('——', $value.level)}{$value.title}</option>
+                                        <option value="{$value.id}" {if $value.id == $info.parent_id}selected="selected"{/if} {if in_array($value.id, $parentPermissionsIdNotIn)}disabled="disabled"{/if}>{if $value.level > 0}|{/if}{:str_repeat('——', $value.level)}{$value.title}</option>
                                     {/volist}
                                 {else /}
                                     <option value="0">顶级权限</option>

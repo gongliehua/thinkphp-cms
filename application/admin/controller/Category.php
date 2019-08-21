@@ -138,6 +138,12 @@ class Category extends Backend
                     $this->error('上级栏目不存在');
                 }
             }
+            // 获取原上级栏目,防止更新后的上级栏目是子栏目
+            $parentCategoryIdNotIn = sort_two_array(json_decode(json_encode(CategoryModel::order('sort', 'asc')->all()), true), $data['id']);
+            $parentCategoryIdNotIn = array_column($parentCategoryIdNotIn, 'id');
+            if (in_array($data['parent_id'], $parentCategoryIdNotIn)) {
+                $this->error('上级栏目不能是子栏目');
+            }
 
             // 判断栏目是否存在
             $category = CategoryModel::get($data['id']);
@@ -173,8 +179,18 @@ class Category extends Backend
             $this->error('栏目不存在');
         }
 
+        sort_two_array([], 0, 0 , true);
         $categorys = sort_two_array(json_decode(json_encode(CategoryModel::order('sort', 'asc')->all()), true));
-        $this->assign(compact('info', 'categorys'));
+
+        if (isset($parentCategoryIdNotIn)) {
+            $parentCategoryIdNotIn = array_merge($parentCategoryIdNotIn, [$data['id']]);
+        } else {
+            sort_two_array([], 0, 0 , true);
+            $parentCategoryIdNotIn = sort_two_array($categorys, $data['id']);
+            $parentCategoryIdNotIn = array_merge(array_column($parentCategoryIdNotIn, 'id'), [$data['id']]);
+        }
+
+        $this->assign(compact('info', 'categorys', 'parentCategoryIdNotIn'));
         return $this->fetch();
     }
 

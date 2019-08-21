@@ -12,9 +12,13 @@
 // 应用公共文件
 
 // 无限极分类数组排序成二维数组
-function sort_two_array($data = [], $parent_id = 0, $level = 0)
+function sort_two_array($data = [], $parent_id = 0, $level = 0, $clear = false)
 {
     static $result = [];
+    if ($clear) {
+        $result = [];
+        return $result;
+    }
     foreach ($data as $key=>$value) {
         if ($value['parent_id'] == $parent_id) {
             $value['level'] = $level;

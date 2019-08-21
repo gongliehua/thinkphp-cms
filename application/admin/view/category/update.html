@@ -60,7 +60,7 @@
                                 {if count($categorys)}
                                     <option value="0">顶级栏目</option>
                                     {volist name="categorys" id="value"}
-                                        <option value="{$value.id}" {if $value.id == $info.parent_id}selected="selected"{/if} {if $value.id == $info.id}disabled="disabled"{/if}>{if $value.level > 0}|{/if}{:str_repeat('——', $value.level)}{$value.name}</option>
+                                        <option value="{$value.id}" {if $value.id == $info.parent_id}selected="selected"{/if} {if in_array($value.id, $parentCategoryIdNotIn)}disabled="disabled"{/if}>{if $value.level > 0}|{/if}{:str_repeat('——', $value.level)}{$value.name}</option>
                                     {/volist}
                                 {else /}
                                     <option value="0">顶级栏目</option>

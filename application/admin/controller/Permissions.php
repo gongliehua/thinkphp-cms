@@ -131,6 +131,12 @@ class Permissions extends Backend
                     $this->error('上级权限不存在');
                 }
             }
+            // 获取原上级权限,防止更新后的上级权限是子权限
+            $parentPermissionsIdNotIn = sort_two_array(json_decode(json_encode(PermissionsModel::order('sort', 'asc')->all()), true), $data['id']);
+            $parentPermissionsIdNotIn = array_column($parentPermissionsIdNotIn, 'id');
+            if (in_array($data['parent_id'], $parentPermissionsIdNotIn)) {
+                $this->error('上级权限不能是子权限');
+            }
 
             // 判断权限是否存在
             $permissions = PermissionsModel::get($data['id']);
@@ -164,8 +170,17 @@ class Permissions extends Backend
             $this->error('权限不存在');
         }
 
+        sort_two_array([], 0, 0 , true);
         $permissions = sort_two_array(json_decode(json_encode(PermissionsModel::order('sort', 'asc')->all()), true));
-        $this->assign(compact('info', 'permissions'));
+
+        if (isset($parentPermissionsIdNotIn)) {
+            $parentPermissionsIdNotIn = array_merge($parentPermissionsIdNotIn, [$data['id']]);
+        } else {
+            sort_two_array([], 0, 0 , true);
+            $parentPermissionsIdNotIn = sort_two_array($permissions, $data['id']);
+            $parentPermissionsIdNotIn = array_merge(array_column($parentPermissionsIdNotIn, 'id'), [$data['id']]);
+        }
+        $this->assign(compact('info', 'permissions', 'parentPermissionsIdNotIn'));
         return $this->fetch();
     }
 
